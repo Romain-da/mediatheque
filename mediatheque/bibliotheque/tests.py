@@ -1,10 +1,16 @@
 from django.test import TestCase
-from .models import Emprunteur, livre
+from .models import Membre, Livre
 
-class EmprunteurTestCase(TestCase):
+class MembreTestCase(TestCase):
     def setUp(self):
-        Emprunteur.objects.create(name="John Doe")
+        self.membre = Membre.objects.create(name="Test Membre")
 
-    def test_emprunteur_creation(self):
-        emprunteur = Emprunteur.objects.get(name="John Doe")
-        self.assertEqual(emprunteur.name, "John Doe")
+    def test_peut_emprunter(self):
+        self.assertTrue(self.membre.peut_emprunter())
+
+class LivreTestCase(TestCase):
+    def setUp(self):
+        self.livre = Livre.objects.create(name="Test Livre", auteur="Auteur Test", disponible=True)
+
+    def test_livre_disponible(self):
+        self.assertTrue(self.livre.disponible)

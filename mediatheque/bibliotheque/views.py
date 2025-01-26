@@ -1,11 +1,11 @@
-from django.shortcuts import render
-from  .models import Emprunteur, livre, dvd, cd, jeuDePlateau
+from django.shortcuts import render, get_object_or_404
+from .models import Livre, DVD, CD, JeuDePlateau, Membre
 
-def nemu (request):
-    return render(request, 'menu.html')
+def liste_livres(request):
+    livres = Livre.objects.all()
+    return render(request, 'bibliotheque/liste_livres.html', {'livres': livres})
 
-def menuBibliotheque(request):
-    return render(request, 'bibliotheque/menu.html')
+def liste_membres(request):
+    membres= Membre.objects.all()
+    return render(request,'bibliotheque/liste_membres.html', {'membres' : membres})
 
-def nemuMembre(request):
-    return render(request, 'membre/menu.html')
