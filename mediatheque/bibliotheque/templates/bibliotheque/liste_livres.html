@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,10 +7,30 @@
 </head>
 <body>
     <h1>Liste des Livres</h1>
-    <ul>
-        {% for livre in livres %}
-            <li>{{ livre.titre }} - {{ livre.auteur }}</li>
-        {% endfor %}
-    </ul>
+    <a href="{% url 'ajouter_livre' %}">Ajouter un livre</a>
+
+    <form method="post">
+        {% csrf_token %}
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Sélection</th>
+                    <th>Titre</th>
+                    <th>Auteur</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for livre in livres %}
+                <tr>
+                    <td><input type="checkbox" name="livres_selectionnes" value="{{ livre.id }}"></td>
+                    <td>{{ livre.titre }}</td>
+                    <td>{{ livre.auteur }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <button type="submit" onclick="return confirm('Voulez-vous vraiment supprimer ces livres ?')">Supprimer la sélection</button>
+    </form>
 </body>
 </html>

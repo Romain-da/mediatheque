@@ -20,5 +20,13 @@ from bibliotheque import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', views.accueil, name='accueil'),
+    path('login/', views.login_bibliothecaire, name='login'),
+
+    path('dashboard/', views.dashboard, name='dashboard'),
+    path('membres/', views.liste_membres, name='liste_membres'),
+    path('membres/ajouter/', views.ajouter_membre, name='ajouter_membre'),
+    path('livres/ajouter/', views.ajouter_livre, name='ajouter_livre'),
     path('livres/', views.liste_livres, name='liste_livres'),
+
 ]

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ajouter un Livre</title>
+</head>
+<body>
+    <h1>Ajouter un Livre</h1>
+    <form method="post">
+    {% csrf_token %}
+
+    <label for="id_titre">Titre :</label>
+    {{ form.titre }}
+    {% if form.titre.errors %}
+        <p style="color: red;">{{ form.titre.errors.0 }}</p>
+    {% endif %}
+
+    <label for="id_auteur">Auteur :</label>
+    {{ form.auteur }}
+    {% if form.auteur.errors %}
+        <p style="color: red;">{{ form.auteur.errors.0 }}</p>
+    {% endif %}
+
+    <button type="submit">Ajouter</button>
+</form>
+
+{% if form.non_field_errors %}
+    <p style="color: red;">{{ form.non_field_errors.0 }}</p>
+{% endif %}
+</body>
+</html>

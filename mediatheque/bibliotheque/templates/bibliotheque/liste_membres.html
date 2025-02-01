@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Liste des Membres</title>
+</head>
+<body>
+    <h1>Liste des Membres</h1>
+    <a href="{% url 'ajouter_membre' %}">Ajouter un membre</a>
+
+    <form method="post">
+        {% csrf_token %}
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Sélection</th>
+                    <th>Nom</th>
+                    <th>Bloqué</th>
+                    <th>Emprunts Actifs</th>
+                    <th>Livres Empruntés</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for membre in membres %}
+                <tr>
+                    <td><input type="checkbox" name="membres_selectionnes" value="{{ membre.id }}"></td>
+                    <td>{{ membre.name }}</td>
+                    <td>{{ membre.bloque|yesno:"Oui,Non" }}</td>
+                    <td>{{ membre.emprunts_actifs }}</td>
+                    <td>
+                        {% if membre.emprunts.all %}
+                            <ul>
+                                {% for emprunt in membre.emprunts.all %}
+                                    {% if emprunt.est_en_cours %}
+                                        <li>{{ emprunt.livre.titre }} (Emprunté le {{ emprunt.date_emprunt }})</li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            Aucun emprunt en cours
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <button type="submit" onclick="return confirm('Voulez-vous vraiment supprimer ces membres ?')">Supprimer la sélection</button>
+    </form>
+</body>
+</html>
