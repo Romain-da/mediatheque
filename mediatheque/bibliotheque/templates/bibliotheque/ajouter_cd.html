@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ajouter un CD</title>
+</head>
+<body>
+    <h1>Ajouter un CD</h1>
+    <form method="post">
+        {% csrf_token %}
+
+        <label for="id_name">Nom :</label>
+        {{ form.name }}
+        {% if form.name.errors %}
+            <p style="color: red;">{{ form.name.errors.0 }}</p>
+        {% endif %}
+
+        <label for="id_artiste">Artiste :</label>
+        {{ form.artiste }}
+        {% if form.artiste.errors %}
+            <p style="color: red;">{{ form.artiste.errors.0 }}</p>
+        {% endif %}
+
+        <button type="submit">Ajouter</button>
+    </form>
+
+    {% if form.non_field_errors %}
+        <p style="color: red;">{{ form.non_field_errors.0 }}</p>
+    {% endif %}
+</body>
+</html>

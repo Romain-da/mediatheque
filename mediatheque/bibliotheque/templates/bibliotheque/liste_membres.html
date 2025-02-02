@@ -16,7 +16,7 @@
                     <th>Nom</th>
                     <th>Bloqué</th>
                     <th>Emprunts Actifs</th>
-                    <th>Livres Empruntés</th>
+                    <th>Objets Empruntés</th>
                 </tr>
             </thead>
             <tbody>
@@ -27,24 +27,30 @@
                     <td>{{ membre.bloque|yesno:"Oui,Non" }}</td>
                     <td>{{ membre.emprunts_actifs }}</td>
                     <td>
-                        {% if membre.emprunts.all %}
-                            <ul>
-                                {% for emprunt in membre.emprunts.all %}
-                                    {% if emprunt.est_en_cours %}
-                                        <li>{{ emprunt.livre.titre }} (Emprunté le {{ emprunt.date_emprunt }})</li>
-                                    {% endif %}
-                                {% endfor %}
-                            </ul>
-                        {% else %}
-                            Aucun emprunt en cours
-                        {% endif %}
+                        {% with emprunts=membre.emprunt_set.all %}
+                            {% if emprunts %}
+                                <ul>
+                                    {% for emprunt in emprunts %}
+                                        <li>
+                                            {{ emprunt.objet }}
+                                            (Emprunté le {{ emprunt.date_emprunt|date:"d/m/Y" }})
+                                            <a href="{% url 'rendre_emprunt' emprunt.id %}" onclick="return confirm('Voulez-vous vraiment rendre cet emprunt ?');">Rendre</a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            {% else %}
+                                Aucun emprunt en cours
+                            {% endif %}
+                        {% endwith %}
                     </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
 
-        <button type="submit" onclick="return confirm('Voulez-vous vraiment supprimer ces membres ?')">Supprimer la sélection</button>
+        <button type="submit" onclick="return confirm('Voulez-vous vraiment supprimer ces membres ?')">
+            Supprimer la sélection
+        </button>
     </form>
 </body>
 </html>

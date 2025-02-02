@@ -11,26 +11,25 @@
 
     <h2>Gestion des Livres</h2>
     <a href="/livres/ajouter/">Ajouter un Livre</a>
-    <ul>
-        {% for livre in livres %}
-            <li>{{ livre.titre }} - {{ livre.auteur }}
-                <a href="{% url 'supprimer_livre' livre.id %}">Supprimer</a>
-            </li>
-        {% endfor %}
-    </ul>
     <a href="{% url 'liste_livres' %}">Voir la liste des livres</a>
 
     <h2>Gestion des DVD</h2>
+    <a href="{% url 'ajouter_dvd' %}">Ajouter un DVD</a>
+    <a href="{% url 'liste_dvd' %}">Voir la liste des DVD</a>
 
-    <h2>Gestion des jeux de plateaux</h2>
+    <h2>Gestion des CD</h2>
+    <a href="{% url 'ajouter_cd' %}">Ajouter un CD</a>
+    <a href="{% url 'liste_cd' %}">Voir la liste des CD</a>
+
+    <h2>Gestion des Jeux de Plateau</h2>
+    <a href="{% url 'ajouter_jeu' %}">Ajouter un Jeu de Plateau</a>
+    <a href="{% url 'liste_jeux' %}">Voir la liste des Jeux de Plateau</a>
 
     <h2>Gestion des Membres</h2>
     <a href="/membres/ajouter/">Ajouter un Membre</a>
-    <ul>
-        {% for membre in membres %}
-            <li>{{ membre.name }} - Emprunts actifs: {{ membre.emprunts_actifs }}</li>
-        {% endfor %}
-    </ul>
     <a href="{% url 'liste_membres' %}">Voir la liste des membres</a>
+
+    <h2>Gestion des Emprunts</h2>
+    <a href="{% url 'gerer_emprunt' %}">Gérer les Emprunts</a>
 </body>
 </html>

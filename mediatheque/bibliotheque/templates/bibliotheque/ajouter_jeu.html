@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ajouter un Jeu de Plateau</title>
+</head>
+<body>
+    <h1>Ajouter un Jeu de Plateau</h1>
+    <form method="post">
+        {% csrf_token %}
+
+        <label for="id_name">Nom du Jeu :</label>
+        {{ form.name }}
+        {% if form.name.errors %}
+            <p style="color: red;">{{ form.name.errors.0 }}</p>
+        {% endif %}
+
+        <label for="id_createur">Créateur :</label>
+        {{ form.createur }}
+        {% if form.createur.errors %}
+            <p style="color: red;">{{ form.createur.errors.0 }}</p>
+        {% endif %}
+
+        <button type="submit">Ajouter</button>
+    </form>
+
+    {% if form.non_field_errors %}
+        <p style="color: red;">{{ form.non_field_errors.0 }}</p>
+    {% endif %}
+</body>
+</html>

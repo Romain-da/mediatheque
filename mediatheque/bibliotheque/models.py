@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 
 # Modèle abstrait pour les médias (DVD, CD, Livre)
 class Media(models.Model):
@@ -20,6 +22,7 @@ class CD(Media):
 class Livre(Media):  # Livre doit être une classe séparée
     titre = models.CharField(max_length=255)
     auteur = models.CharField(max_length=255)
+    disponible = models.BooleanField(default=True)
 
     def __str__(self):
         return self.titre
@@ -39,14 +42,12 @@ class Membre(models.Model):
     def peut_emprunter(self):
         return not self.bloque and self.emprunts_actifs < 3
 
-class Emprunt(models.Model):  # Emprunt doit être une classe séparée
-    membre = models.ForeignKey('Membre', on_delete=models.CASCADE, related_name='emprunts')
-    livre = models.ForeignKey('Livre', on_delete=models.CASCADE)
-    date_emprunt = models.DateField(auto_now_add=True)
-    date_retour = models.DateField(null=True, blank=True)  # Null si le livre n'a pas été rendu
-
-    def est_en_cours(self):
-        return self.date_retour is None
+class Emprunt(models.Model):
+    membre = models.ForeignKey('Membre', on_delete=models.CASCADE)
+    objet_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, default=1)  # Ajout d'une valeur par défaut
+    objet_id = models.PositiveIntegerField(default=1)  # Ajout d'une valeur par défaut
+    objet = GenericForeignKey('objet_type', 'objet_id')
+    date_emprunt = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.membre.name} - {self.livre.titre}"
+        return f"{self.membre.name} - {self.objet}"

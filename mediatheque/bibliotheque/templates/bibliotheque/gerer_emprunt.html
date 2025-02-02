@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gérer les Emprunts</title>
+</head>
+<body>
+    <h1>Gérer les Emprunts</h1>
+
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+
+        <!-- Sélection du membre -->
+        <label for="membre">Sélectionner un membre :</label>
+        <select name="membre" id="membre">
+            <option value="">-- Choisir un membre --</option>
+            {% for membre in membres %}
+                <option value="{{ membre.id }}">{{ membre.name }} ({{ membre.emprunts_actifs }} emprunts en cours)</option>
+            {% endfor %}
+        </select>
+
+        <!-- Sélection du type d'objet -->
+        <label for="type">Type d'emprunt :</label>
+        <select name="type" id="type" onchange="afficherListe()">
+            <option value="">-- Choisir un type --</option>
+            <option value="livre">Livre</option>
+            <option value="dvd">DVD</option>
+            <option value="cd">CD</option>
+        </select>
+
+        <!-- Sélection de l'objet emprunté -->
+        <div id="selection_objet" style="display: none;">
+            <label for="objet">Sélectionner un objet :</label>
+            <select name="objet" id="objet">
+                <option value="">-- Choisir un objet --</option>
+            </select>
+        </div>
+
+        <button type="submit">Valider l'Emprunt</button>
+    </form>
+
+    <!-- Stocker les objets dans des listes cachées -->
+    <select id="livres_cache" style="display: none;">
+    {% for livre in livres %}
+        <option value="{{ livre.id }}">{{ livre.titre }}</option>
+    {% empty %}
+        <option value="">Aucun livre disponible</option>
+    {% endfor %}
+</select>
+
+<select id="dvds_cache" style="display: none;">
+    {% for dvd in dvds %}
+        <option value="{{ dvd.id }}">{{ dvd.name }} ({{ dvd.realisateur }})</option>
+    {% empty %}
+        <option value="">Aucun DVD disponible</option>
+    {% endfor %}
+</select>
+
+<select id="cds_cache" style="display: none;">
+    {% for cd in cds %}
+        <option value="{{ cd.id }}">{{ cd.name }} ({{ cd.artiste }})</option>
+    {% empty %}
+        <option value="">Aucun CD disponible</option>
+    {% endfor %}
+</select>
+
+    <script>
+    function afficherListe() {
+        var type = document.getElementById("type").value;
+        var objetSelect = document.getElementById("objet");
+        var selectionDiv = document.getElementById("selection_objet");
+
+        // Vider la liste avant d'ajouter des options
+        objetSelect.innerHTML = '<option value="">-- Choisir un objet --</option>';
+
+        var listeCache;
+        if (type === "livre") {
+            listeCache = document.getElementById("livres_cache");
+        } else if (type === "dvd") {
+            listeCache = document.getElementById("dvds_cache");
+        } else if (type === "cd") {
+            listeCache = document.getElementById("cds_cache");
+        } else {
+            selectionDiv.style.display = "none";
+            return;
+        }
+
+        console.log("Sélection de type : " + type);  // Vérifie quel type est sélectionné
+        console.log("Nombre d'options trouvées : " + listeCache.options.length);  // Vérifie combien d'objets existent
+
+        if (listeCache.options.length > 0) {
+            for (var i = 0; i < listeCache.options.length; i++) {
+                var option = listeCache.options[i].cloneNode(true);
+                objetSelect.appendChild(option);
+            }
+            selectionDiv.style.display = "block";
+        } else {
+            selectionDiv.style.display = "none";
+            console.log("Aucun objet disponible pour ce type !");
+        }
+    }
+    </script>
+</body>
+</html>
