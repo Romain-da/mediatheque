@@ -4,6 +4,7 @@
     <title>Ajouter un DVD</title>
 </head>
 <body>
+    <a href="{% url 'dashboard' %}">Retour au Dashboard</a>
     <h1>Ajouter un DVD</h1>
     <form method="post">
         {% csrf_token %}

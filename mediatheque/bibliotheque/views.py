@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.timezone import now
 from .models import Livre, DVD, CD, JeuDePlateau, Membre, Emprunt
 from .forms import LivreForm, MembreForm, DVDForm, CDForm, JeuDePlateauForm
+from django.http import HttpResponse
 import json
 from django.core.serializers import serialize
 

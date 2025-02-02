@@ -7,7 +7,10 @@
 </head>
 <body>
     <h1>Tableau de Bord</h1>
-    <a href="/logout/">Se déconnecter</a>
+    <form method="post" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button type="submit">Se Déconnecter</button>
+</form>
 
     <h2>Gestion des Livres</h2>
     <a href="/livres/ajouter/">Ajouter un Livre</a>
