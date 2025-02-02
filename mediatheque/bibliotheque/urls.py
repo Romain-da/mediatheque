@@ -10,6 +10,7 @@ urlpatterns = [
     path('login/', views.login_bibliothecaire, name='login'),
     path('logout/', auth_views.LogoutView.as_view(next_page='accueil'), name='logout'),
     path('dashboard/', views.dashboard, name='dashboard'),
+    path('espace_membre/', views.espace_membre, name='espace_membre'),
 
     path('membres/', views.liste_membres, name='liste_membres'),
     path('membres/ajouter/', views.ajouter_membre, name='ajouter_membre'),

@@ -12,6 +12,26 @@ from django.core.serializers import serialize
 def accueil(request):
     return render(request, 'bibliotheque/index.html')
 
+# PAGE ESPACE MEMBRE
+def espace_membre(request):
+    livres = Livre.objects.all()
+    dvds = DVD.objects.all()
+    cds = CD.objects.all()
+    jeux = JeuDePlateau.objects.all()
+
+    print("Livres trouvés :", livres)
+    print("DVDs trouvés :", dvds)
+    print("CDs trouvés :", cds)
+    print("Jeux trouvés :", jeux)
+
+    context = {
+        'livres': livres,
+        'dvds': dvds,
+        'cds': cds,
+        'jeux': jeux,
+    }
+    return render(request, 'bibliotheque/espace_membre.html', context)
+
 # CONNEXION BIBLIOTHÉCAIRE
 def login_bibliothecaire(request):
     if request.method == 'POST':

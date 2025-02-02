@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espace Membre</title>
+</head>
+<body>
+    <h1>Espace Membre</h1>
+
+    <h2>Liste des Livres</h2>
+    {% if livres %}
+        <ul>
+            {% for livre in livres %}
+                <li>{{ livre.titre }} - {% if livre.disponible %}Disponible{% else %}Emprunté{% endif %}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Aucun livre disponible.</p>
+    {% endif %}
+
+    <h2>Liste des DVD</h2>
+    {% if dvds %}
+        <ul>
+            {% for dvd in dvds %}
+                <li>{{ dvd.name }} - {% if dvd.disponible %}Disponible{% else %}Emprunté{% endif %}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Aucun DVD disponible.</p>
+    {% endif %}
+
+    <h2>Liste des CD</h2>
+    {% if cds %}
+        <ul>
+            {% for cd in cds %}
+                <li>{{ cd.name }} - {% if cd.disponible %}Disponible{% else %}Emprunté{% endif %}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Aucun CD disponible.</p>
+    {% endif %}
+
+    <h2>Liste des Jeux de Plateau</h2>
+    {% if jeux %}
+        <ul>
+            {% for jeu in jeux %}
+                <li>{{ jeu.name }} - {% if jeu.disponible %}Disponible{% else %}Emprunté{% endif %}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Aucun jeu disponible.</p>
+    {% endif %}
+    <a href="{% url 'accueil' %}">Retour à l'accueil</a>
+</body>
+</html>
