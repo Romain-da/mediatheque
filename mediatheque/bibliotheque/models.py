@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
+from django.utils.timezone import now
+from datetime import timedelta
 
 # Modèle abstrait pour les médias (DVD, CD, Livre)
 class Media(models.Model):
@@ -24,6 +26,10 @@ class Livre(Media):  # Livre doit être une classe séparée
     auteur = models.CharField(max_length=255)
     disponible = models.BooleanField(default=True)
 
+    def save(self, *args, **kwargs):
+        self.name = self.titre
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return self.titre
 
@@ -40,7 +46,17 @@ class Membre(models.Model):
         return self.name
 
     def peut_emprunter(self):
-        return not self.bloque and self.emprunts_actifs < 3
+        """ Vérifie si le membre peut emprunter un nouvel objet. """
+        if self.bloque or self.emprunts_actifs >= 3:
+            return False
+
+        # Vérifier si un emprunt dépasse une semaine
+        emprunts = Emprunt.objects.filter(membre=self)
+        for emprunt in emprunts:
+            if emprunt.date_emprunt < now() - timedelta(days=7):
+                return False  # L'utilisateur a un emprunt en retard
+
+        return True
 
 class Emprunt(models.Model):
     membre = models.ForeignKey('Membre', on_delete=models.CASCADE)

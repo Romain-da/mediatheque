@@ -5,16 +5,14 @@ from .models import Livre, Membre, DVD, CD, JeuDePlateau
 class LivreForm(forms.ModelForm):
     class Meta:
         model = Livre
-        fields = ['titre', 'auteur', 'disponible']
+        fields = ['titre', 'auteur']  # `name` est géré automatiquement
 
-    def clean(self):
-        cleaned_data = super().clean()
-        titre = cleaned_data.get("titre")
-        auteur = cleaned_data.get("auteur")
-
-        if not titre or not auteur:
-            raise forms.ValidationError("Les champs Titre et Auteur sont obligatoires")
-        return cleaned_data
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        instance.name = instance.titre  # Remplit `name` avec `titre`
+        if commit:
+            instance.save()
+        return instance
 
 # 📌 Formulaire pour les Membres
 class MembreForm(forms.ModelForm):

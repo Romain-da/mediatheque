@@ -85,7 +85,9 @@ def liste_livres(request):
 def ajouter_livre(request):
     form = LivreForm(request.POST or None)
     if form.is_valid():
-        form.save()
+        livre = form.save(commit=False)
+        livre.name = livre.titre  # Assure que `name` prend la valeur de `titre`
+        livre.save()
         return redirect('liste_livres')
     return render(request, 'bibliotheque/ajouter_livre.html', {'form': form})
 
@@ -167,23 +169,24 @@ def gerer_emprunt(request):
 
         if not all([membre_id, emprunt_type, emprunt_id]):
             return render(request, 'bibliotheque/gerer_emprunt.html', {
-                'membres': membres,
-                'livres': livres,
-                'dvds': dvds,
-                'cds': cds,
+                'membres': membres, 'livres': livres, 'dvds': dvds, 'cds': cds,
                 'error': "Veuillez remplir tous les champs."
             })
 
         membre = get_object_or_404(Membre, id=membre_id)
 
+        # Vérifier si le membre peut emprunter
+        if not membre.peut_emprunter():
+            return render(request, 'bibliotheque/gerer_emprunt.html', {
+                'membres': membres, 'livres': livres, 'dvds': dvds, 'cds': cds,
+                'error': "Ce membre ne peut pas emprunter : il a déjà 3 emprunts ou un retard de plus d'une semaine."
+            })
+
         objet_map = {"livre": Livre, "dvd": DVD, "cd": CD}
         objet_class = objet_map.get(emprunt_type)
         if not objet_class:
             return render(request, 'bibliotheque/gerer_emprunt.html', {
-                'membres': membres,
-                'livres': livres,
-                'dvds': dvds,
-                'cds': cds,
+                'membres': membres, 'livres': livres, 'dvds': dvds, 'cds': cds,
                 'error': "Type d'objet non valide."
             })
 
@@ -191,10 +194,7 @@ def gerer_emprunt(request):
 
         if not objet.disponible:
             return render(request, 'bibliotheque/gerer_emprunt.html', {
-                'membres': membres,
-                'livres': livres,
-                'dvds': dvds,
-                'cds': cds,
+                'membres': membres, 'livres': livres, 'dvds': dvds, 'cds': cds,
                 'error': f"{objet} est déjà emprunté."
             })
 
@@ -205,13 +205,14 @@ def gerer_emprunt(request):
         objet.disponible = False
         objet.save()
 
+        # Mettre à jour les emprunts actifs du membre
+        membre.emprunts_actifs += 1
+        membre.save()
+
         return redirect('dashboard')
 
     return render(request, 'bibliotheque/gerer_emprunt.html', {
-        'membres': membres,
-        'livres': livres,
-        'dvds': dvds,
-        'cds': cds
+        'membres': membres, 'livres': livres, 'dvds': dvds, 'cds': cds
     })
 
 
@@ -219,7 +220,7 @@ def gerer_emprunt(request):
 def rendre_emprunt(request, emprunt_id):
     emprunt = get_object_or_404(Emprunt, id=emprunt_id)
 
-    # Mettre à jour l'objet emprunté pour qu'il redevienne disponible
+    # Marquer l'objet comme disponible
     emprunt.objet.disponible = True
     emprunt.objet.save()
 
@@ -231,4 +232,4 @@ def rendre_emprunt(request, emprunt_id):
     # Supprimer l'emprunt
     emprunt.delete()
 
-    return redirect('liste_membres')  # Rediriger après suppression
+    return redirect('liste_membres')
