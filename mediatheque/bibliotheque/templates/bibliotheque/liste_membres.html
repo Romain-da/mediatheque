@@ -17,6 +17,7 @@
                     <th>Bloqué</th>
                     <th>Emprunts Actifs</th>
                     <th>Objets Empruntés</th>
+                    <th>Modifier</th>
                 </tr>
             </thead>
             <tbody>
@@ -43,6 +44,9 @@
                             {% endif %}
                         {% endwith %}
                     </td>
+                    <td>
+                        <a href="{% url 'modifier_membre' membre.id %}">Modifier</a>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -52,6 +56,7 @@
             Supprimer la sélection
         </button>
     </form>
+
     <a href="{% url 'dashboard' %}">Retour au Dashboard</a>
 </body>
 </html>

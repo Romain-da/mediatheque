@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.utils.timezone import now
 from .models import Livre, DVD, CD, JeuDePlateau, Membre, Emprunt
-from .forms import LivreForm, MembreForm, DVDForm, CDForm, JeuDePlateauForm
+from .forms import LivreForm, MembreForm, DVDForm, CDForm, JeuDePlateauForm, ModifierMembreForm
 from django.http import HttpResponse
 import json
 from django.core.serializers import serialize
@@ -233,3 +233,14 @@ def rendre_emprunt(request, emprunt_id):
     emprunt.delete()
 
     return redirect('liste_membres')
+
+@login_required
+def modifier_membre(request, membre_id):
+    membre = get_object_or_404(Membre, id=membre_id)
+    form = ModifierMembreForm(request.POST or None, instance=membre)
+
+    if form.is_valid():
+        form.save()
+        return redirect('liste_membres')
+
+    return render(request, 'bibliotheque/modifier_membre.html', {'form': form, 'membre': membre})

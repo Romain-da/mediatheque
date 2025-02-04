@@ -1,0 +1,5 @@
+[
+    {"model": "bibliotheque.livre", "pk": 1, "fields": {"titre": "Python pour les Nuls", "auteur": "John Doe", "disponible": true}},
+    {"model": "bibliotheque.livre", "pk": 2, "fields": {"titre": "Django avancé", "auteur": "Jane Smith", "disponible": false}},
+    {"model": "bibliotheque.livre", "pk": 3, "fields": {"titre": "Apprendre le JavaScript", "auteur": "Albert Einstein", "disponible": true}}
+]

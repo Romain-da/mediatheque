@@ -1,0 +1,5 @@
+[
+    {"model": "bibliotheque.dvd", "pk": 1, "fields": {"name": "Inception", "realisateur": "Christopher Nolan", "disponible": true}},
+    {"model": "bibliotheque.dvd", "pk": 2, "fields": {"name": "Le Parrain", "realisateur": "Francis Ford Coppola", "disponible": false}},
+    {"model": "bibliotheque.dvd", "pk": 3, "fields": {"name": "Interstellar", "realisateur": "Christopher Nolan", "disponible": true}}
+]

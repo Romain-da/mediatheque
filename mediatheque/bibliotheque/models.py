@@ -5,7 +5,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.utils.timezone import now
 from datetime import timedelta
 
-# Modèle abstrait pour les médias (DVD, CD, Livre)
+# Modèle pour les médias (DVD, CD, Livre)
 class Media(models.Model):
     name = models.CharField(max_length=255)
     date_emprunt = models.DateField(null=True, blank=True)

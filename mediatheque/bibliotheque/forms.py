@@ -1,7 +1,7 @@
 from django import forms
 from .models import Livre, Membre, DVD, CD, JeuDePlateau
 
-# 📌 Formulaire pour les Livres
+# Formulaire pour les Livres
 class LivreForm(forms.ModelForm):
     class Meta:
         model = Livre
@@ -14,13 +14,19 @@ class LivreForm(forms.ModelForm):
             instance.save()
         return instance
 
-# 📌 Formulaire pour les Membres
+# Formulaire pour les Membres
 class MembreForm(forms.ModelForm):
     class Meta:
         model = Membre
         fields =  ['name', 'bloque', 'emprunts_actifs']
 
-# 📌 Formulaire pour les DVD
+# Formulaire pour modifier un membre
+class ModifierMembreForm(forms.ModelForm):
+    class Meta:
+        model = Membre
+        fields = ['name', 'bloque', 'emprunts_actifs']
+
+# Formulaire pour les DVD
 class DVDForm(forms.ModelForm):
     class Meta:
         model = DVD
@@ -35,7 +41,7 @@ class DVDForm(forms.ModelForm):
             raise forms.ValidationError("Les champs Nom et Réalisateur sont obligatoires")
         return cleaned_data
 
-# 📌 Formulaire pour les CD
+# Formulaire pour les CD
 class CDForm(forms.ModelForm):
     class Meta:
         model = CD
@@ -50,7 +56,7 @@ class CDForm(forms.ModelForm):
             raise forms.ValidationError("Les champs Nom et Artiste sont obligatoires")
         return cleaned_data
 
-# 📌 Formulaire pour les Jeux de Plateau
+# Formulaire pour les Jeux de Plateau
 class JeuDePlateauForm(forms.ModelForm):
     class Meta:
         model = JeuDePlateau

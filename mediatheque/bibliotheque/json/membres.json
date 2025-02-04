@@ -1,0 +1,5 @@
+[
+    {"model": "bibliotheque.membre", "pk": 1, "fields": {"name": "Alice Dupont", "bloque": false, "emprunts_actifs": 1}},
+    {"model": "bibliotheque.membre", "pk": 2, "fields": {"name": "Jean Martin", "bloque": false, "emprunts_actifs": 2}},
+    {"model": "bibliotheque.membre", "pk": 3, "fields": {"name": "Sophie Lambert", "bloque": true, "emprunts_actifs": 3}}
+]

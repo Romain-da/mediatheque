@@ -1,0 +1,5 @@
+[
+    {"model": "bibliotheque.cd", "pk": 1, "fields": {"name": "Greatest Hits", "artiste": "Queen", "disponible": true}},
+    {"model": "bibliotheque.cd", "pk": 2, "fields": {"name": "Thriller", "artiste": "Michael Jackson", "disponible": false}},
+    {"model": "bibliotheque.cd", "pk": 3, "fields": {"name": "The Dark Side of the Moon", "artiste": "Pink Floyd", "disponible": true}}
+]

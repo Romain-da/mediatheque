@@ -1,0 +1,5 @@
+[
+    {"model": "bibliotheque.jeudeplateau", "pk": 1, "fields": {"name": "Monopoly", "createur": "Hasbro"}},
+    {"model": "bibliotheque.jeudeplateau", "pk": 2, "fields": {"name": "Risk", "createur": "Parker Brothers"}},
+    {"model": "bibliotheque.jeudeplateau", "pk": 3, "fields": {"name": "Catan", "createur": "Klaus Teuber"}}
+]
